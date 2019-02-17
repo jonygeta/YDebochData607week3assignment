@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/468322/51423c58e3694ff0b94aead082fd428b
+bundleId: https://api.rpubs.com/api/v1/document/468322/51423c58e3694ff0b94aead082fd428b
+url: http://rpubs.com/jonygeta/468322/edit
+when: 1550425227.495

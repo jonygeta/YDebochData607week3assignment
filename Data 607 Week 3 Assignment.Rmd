@@ -1,0 +1,107 @@
+---
+title: "Data 607 Week 3 Assignment"
+author: "Yohannes Deboch"
+date: "February 16, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Copy the introductory example. The vector name stores the extracted names.
+```{r}
+library(stringr)
+
+```
+```{r}
+raw.data<-"555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson, Homer5553642Dr. Julius Hibbert"
+raw.data
+```
+
+(a) Use the tools of this chapter to rearrange the vector so that all elements conform to
+the standard first_name last_name .
+```{r}
+name <- unlist(str_extract_all(raw.data,"[[:alpha:]., ]{2,}"))
+name
+```
+```{r}
+# Remove the title
+name <- str_replace(name,"[[:alpha:]]{2,}\\. ", "")
+name
+```
+```{r}
+# Extract the first name
+first_name <- str_extract(name, "^[[:alpha:]]+\\.?")
+last_name <- str_extract(name, "[[:alpha:]]+$")
+# Trim whitespace
+first_name <- str_trim(first_name)
+last_name <- str_trim(last_name)
+first_last <-  str_c(first_name, last_name, sep = " ")
+first_last
+```
+
+(b) Construct a logical vector indicating whether a character has a title (i.e., Rev. and
+Dr. ).
+(c) Construct a logical vector indicating whether a character has a second name.
+
+
+
+4. Describe the types of strings that conform to the following regular expressions and
+construct an example that is matched by the regular expression.
+(a) [0-9]+\\$
+Answer:
+Match any number 0 to 9 one or more times followed by a $ charcter at the end.
+
+```{r}
+str <- "I've 1500$ for my monthly expenses."
+str_extract(str,"[0-9]+\\$")
+```
+
+(b) \\b[a-z]{1,4}\\b
+Answer: Matches any 1 to 4 charcter lowercase letter a to z in a whole word search.
+```{r}
+str <- "Any character one to four digit lowercase letter.No digits 123etc are allowed."
+str_extract(str,"\\b[a-z]{1,4}\\b")
+```
+
+(c) .*?\\.txt$
+Answer: This regular expression matches any character followed by ".txt" at then end.
+
+```{r}
+str <- c(".txt","file.txt","big_data.txt","I'm a word")
+unlist(str_extract_all(str,".*?\\.txt$"))
+```
+
+
+(d) \\d{2}/\\d{2}/\\d{4}
+Answer: This regular expression matches dates where the first and second part is 2 digit number and the last part is a 4 digit number.
+```{r}
+str_extract("02/16/2019","\\d{2}/\\d{2}/\\d{4}")
+```
+
+(e) <(.+?)>.+?</\\1>
+Answer: This expressoin matches any html opening and closing tags.
+```{r}
+str_extract("<title>This is a title</title>","<(.+?)>.+?</\\1>")
+
+```
+9. The following code hides a secret message. Crack it with R and regular expressions.
+Hint: Some of the characters are more revealing than others! The code snippet is also
+available in the materials at www.r-datacollection.com.
+```{r}
+str <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0Tanwo
+Uwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigO
+d6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5
+fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr"
+
+# Extract all the upper case
+message <- unlist(str_extract_all(str,"[[:upper:].! ]"))
+message
+# Make a sentence by joining
+message <- paste(message, collapse = "")
+message
+# Replace . by space
+message <- str_replace_all(message,"\\."," ")
+message
+```
+
